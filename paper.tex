@@ -1,0 +1,86 @@
+\documentclass[12pt, titlepage]{article}
+% font size could be 10pt (default), 11pt or 12 pt
+% paper size coulde be letterpaper (default), legalpaper, executivepaper,
+% a4paper, a5paper or b5paper
+% side coulde be oneside (default) or twoside 
+% columns coulde be onecolumn (default) or twocolumn
+% graphics coulde be final (default) or draft 
+%
+% titlepage coulde be notitlepage (default) or titlepage which 
+% makes an extra page for title 
+% 
+% paper alignment coulde be portrait (default) or landscape 
+%
+% equations coulde be 
+%   default number of the equation on the rigth and equation centered 
+%   leqno number on the left and equation centered 
+%   fleqn number on the rigth and  equation on the left side
+%    
+
+\title{Designing Provably Correct Secure Architectures}
+\author{Jared Roesch,  \\
+    Department of Computer Science, \\
+    University of California Santa Barbara. \\
+    }
+
+\date{\today} 
+% \date{\today} date could be today 
+% \date{25.12.00} or be a certain date
+% \date{ } or there is no date 
+\begin{document}
+% Hint: \title{what ever}, \author{who care} and \date{when ever} could stand 
+% before or after the \begin{document} command 
+% BUT the \maketitle command MUST come AFTER the \begin{document} command! 
+\maketitle
+
+\begin{abstract}
+Secure hardware is obviously a very active interesting area of research.
+People are working hard on desinging architectures that have properties
+that are desireable for a vareity of reasons.
+How do we reason about \cite{exec-leases}
+- restrictions on computation
+- static reasoning
+- instead of encoding dynamic checks or assuming that
+
+\end{abstract}
+
+%\tableofcontents % create a table of contens 
+
+\section{Introduction}
+
+Hardware security is becoming and incresingly important topic both as a research problem and a pragmatic issue effecting 
+day to day life. Hardware is multiplying around us and proliferating through all parts of life. We are seeing more and more
+devices spring into existance to manage everything from avionics, pace makers, or your thermostat. One of the problems is
+that we are giving these devices more and more control over critical systems that govern the safety and lives of humans. At
+the same time we also have issues with mobile security, cloud computing, and more.
+
+Traditionally many of these problems have only been thought about at the software level and much of the related work has
+been about verifing correctness and security properties about the system running on top.
+
+The problem is that if we want to truly verify correctness properties we must verify each piece of the stack from top to 
+bottom.
+
+The missing part of this equation then becomes the verification of hardware. Obviously there has been other work here 
+(insert citations) in verifiying simple hardware description, and properties of hardware. What we want to do is introduce
+more powerful tools to the hardware developer who actually describes and designs hardware. Unforunately previous approaches
+present a DSL in a Theorem Proving environment. There is a endeavor to free the hardware designer to be able to both build
+hardware and prove properties.
+
+\section{Background}
+- Secure Hardware
+- Proving
+- DTs
+- ect
+
+\section{Secure Architecture Design}
+
+\section{Verified Hardware Construction}
+
+\section{Extensions}
+
+The goal is to take everything that has been described and combine them into something that is uni
+
+\bibliography{paper}
+\bibliographystyle{plain}
+
+\end{document}
