@@ -103,7 +103,23 @@ as statement that a is a proof of A, and we can interepret the typing judgment $
 At the type level it allows us to produce a B given an A, and computationally it gives us a method for transforming a program
 of A into a program of B. If we remember that program's corresond to proofs we now have a computational method for proving.
 
-We can of course 
+We can of course extend our type system with richer features. We will quickly survey the important additions to the Simply
+Typed Lambda Calculus that are needed to turn it into a dependently typed lambda calculus. The most important feature
+is the idea of Pi Types. Simple type systems can be enriched with many features such as products, sums, so on. There
+have been innovations in type system construction, but depdently typed calculi in the style of the CoC or MLTT are
+the most powerful. 
+
+Traditonally we maintain a phase distinction where types and values leave in seperate universes. Depdent types
+are about erasing this distinction. Types can be made more expressive by a series of additions. First if we
+allow quantifers we can now abstract over types with type lambdas. We can then introduce kinds which allow us
+to specify type arities. We can then introduce kind polymorphism, and many other features. Each of these systems become
+more and more complex because they have to maintain constant distinction between each universe of values, kinds, sorts.
+Depdent types simply introduce the idea of a Pi Type of dependent function space. This type system generalization is the 
+idea that we can make everything much simpler by creating a stratfied hierarchy of types, and combining this Pi Types.
+We then can collapse our language into a simple set of pseudo terms, and typing rules \makered{examples can be found}.
+
+The idea of Pi Types can be simply viewed as a generalization of the traditional function type. The generalization
+allows the codomain to depdend on the domain of the function. Given $B : P -> A; \Pi (x : A). B(x)$.
 
 \subsection{Automated Theorem Proving}
 High level talking points: \\
