@@ -1,23 +1,8 @@
 \documentclass[12pt, titlepage]{article}
-% font size could be 10pt (default), 11pt or 12 pt
-% paper size coulde be letterpaper (default), legalpaper, executivepaper,
-% a4paper, a5paper or b5paper
-% side coulde be oneside (default) or twoside 
-% columns coulde be onecolumn (default) or twocolumn
-% graphics coulde be final (default) or draft 
-%
-% titlepage coulde be notitlepage (default) or titlepage which 
-% makes an extra page for title 
-% 
-% paper alignment coulde be portrait (default) or landscape 
-%
-% equations coulde be 
-%   default number of the equation on the rigth and equation centered 
-%   leqno number on the left and equation centered 
-%   fleqn number on the rigth and  equation on the left side
-%    
 
-\title{Designing Provably Correct Secure Architectures}
+\input{macros}
+
+\title{Towards a Tool for Verified Hardware Construction}
 \author{Jared Roesch,  \\
     Department of Computer Science, \\
     University of California Santa Barbara. \\
@@ -34,51 +19,158 @@
 \maketitle
 
 \begin{abstract}
-Secure hardware is obviously a very active interesting area of research.
-People are working hard on desinging architectures that have properties
-that are desireable for a vareity of reasons.
-How do we reason about \cite{exec-leases}
-- restrictions on computation
-- static reasoning
-- instead of encoding dynamic checks or assuming that
-
+Designing secure hardware is an active area of research that has seen much growth in recent years.
+Hardware is now more complicated then ever but even if we state and prove high level security 
+properties about our designs we have no way to demonstrate a correspondence between the thing
+we formally discuss and the thing that we eventually design. Unfortunately the tools used to construct hardware
+have not fundamentally changed in decades. We present a high level overview of the state of the art with regards to these 
+issues, and sketch a plan of how to adapt these techniques in order to build a toolchain for
+the formal verification of hardware synthesis.
 \end{abstract}
 
 %\tableofcontents % create a table of contens 
 
 \section{Introduction}
 
+\makered{TODO: need to finish putting all my citations in} \\
+
 Hardware security is becoming and incresingly important topic both as a research problem and a pragmatic issue effecting 
 day to day life. Hardware is multiplying around us and proliferating through all parts of life. We are seeing more and more
-devices spring into existance to manage everything from avionics, pace makers, or your thermostat. One of the problems is
+devices spring into existance to manage everything from avionics, pace makers, to your thermostat. One of the problems is
 that we are giving these devices more and more control over critical systems that govern the safety and lives of humans. At
 the same time we also have issues with mobile security, cloud computing, and more.
 
 Traditionally many of these problems have only been thought about at the software level and much of the related work has
-been about verifing correctness and security properties about the system running on top.
+been about verifing correctness and security properties about the systems running on top. Ideally we want to be able an
+run entire stack of critical software; a verified application, running on a verified operating system. This picture
+unforuntately doesn't factor in vulnerabilities at the hardware level. Often times the hardware's security has been
+an afterthought, but there has been multiple recent examples of attacks that leveraged hardware level exploits in order
+to compromise systems(\makered{cite here}).
 
-The problem is that if we want to truly verify correctness properties we must verify each piece of the stack from top to 
-bottom.
+The missing part of this equation then becomes the verification of hardware. Hardware verification is not necessarily a trivial
+problem. Although hardware construction has similarities with design and verification of software, there are 
+key issues that must be solved. There has been (\makered{insert citations}) in verifiying simple hardware description, and properties ofhardware. (More \makered{limitations here}) The goal then is to build a tool focused on hardware construction that exposes
+more powerful tools to the engineer who designs hardware. 
 
-The missing part of this equation then becomes the verification of hardware. Obviously there has been other work here 
-(insert citations) in verifiying simple hardware description, and properties of hardware. What we want to do is introduce
-more powerful tools to the hardware developer who actually describes and designs hardware. Unforunately previous approaches
-present a DSL in a Theorem Proving environment. There is a endeavor to free the hardware designer to be able to both build
+(\makered{incorporate these ideas})
+Unforunately previous approaches present a DSL in a 
+Theorem Proving environment. There is a endeavor to free the hardware designer to be able to both build
 hardware and prove properties.
 
 \section{Background}
-- Secure Hardware
-- Proving
-- DTs
-- ect
+There has been distinct work in each area of secure computer arhcitectures, and 
+hardware description languages, and theorem proving. We survey the important highlights from each
+that are necessary to understanding our approach.
+\makered{more text here probably}
 
-\section{Secure Architecture Design}
+\subsection{Secure Architecture}
+\begin{itemize}
+    \item Ruby's work, Tim's on execution leases, Appel
+    \item All high level properties that are loosely reasoned about
+    \item want flexibility in design, parametrizable modules (show example from GitHub here)
+    \item Missing rigorous formal analysis
+    \item When they have analysis it suffers from being Pen and Paper, and being abstracted from the actual work.
+\end{itemize}
 
-\section{Verified Hardware Construction}
+In \cite{lee05} they describe “secret-protected” architecture that enables the protection of critical secrets for users in an online environment. They argue that their architecture requires only a few extra features to be built into a general purpose microprocessor to protect secrets and related computations. They do this with a small amount of extra hardware. They are able to decouple user secrets from the devices, avoid symmetric master keys, and avoid doing factory-installed device secrets. Their approach can be divided into a few core features the Key Chain, Trusted Software Module, Concealed Execution, Hardware Extensions, Secure I/O, and OS support. 
+
+\makered{work some critique in here: The evaluation could use some work. There is a written description of both their security and performance evalution, but neither has explicit numbers. It seems that although Ruby talks about performance vs. secu- rity tradeoffs in her book, she is not completely clear about the ones made here. As well they are lacking any sort of formal proof of their security properties. This may not be important to the architecture community, but it seems questionable at best to make claims about the security of a system at a high level without actually formally verifiying the properties hold in practice. The performance evaluation also seems to be very high level, and ignores important details, for example they dismiss the performance impact on the overall system without presenting precise empirical evaluation of it. They do evaluate the instruction load of their hardware crypto but do not compare it aganist anything else in the space.}
+
+
+In \cite{languagebased} they described ways to add a type system to a small imperative language in order to mitgate the leakage of timing information.
+Ideally these hardware concerns shouldn't leak beyong the hardware level, and they grappel with this in their analysis of the technique. 
+
+\makered{put this somewhere: It would be desireable to adapt their technique from \cite{blackboxed} and use our technique to help prove that correctness of the approach.}
+
+\subsection{Hardware Description Languages}
+
+Hardware description languages are software tools for synthesizing hardware from a high level programmatic description.
+A hardware description language is ideally a precise, formal description of an electronic circuit that 
+makes it easy to do automated analysis, simulation, and testing for a circuit. In reality they have
+various weaknesses and failings \subsection{Type Theory}
+Type theory is a foundational framework for mathematics. It was an approach that evolved out of Russel's \cite{Principia}
+as an approach to a consistent foundational system for mathematics. The early 20th century was spent developing type theory
+as a proof system. The key insight was the Curry-Howard Isomorphism, which roughly states that types can be associated with
+propositions and proofs with programs. This insight was adapted and it became apparent that typed variants of the lambda
+calculus can be used as proof systems, the most famous of which is Martin-Lof type theory. You can then view types in
+this typed lambda calculus as various features of constructive logic.
+
+\makered{TODO: clean this section up with typeset examples and such} \\
+
+If we begin with just an implicational fragment of logic we can use the simply typed lambda calculus which only has a
+single type constructor, the function type. This corresponds to implication. We can now view the typing judgment $a : A$
+as statement that a is a proof of A, and we can interepret the typing judgment $f : A -> B$ as a computational implication.
+At the type level it allows us to produce a B given an A, and computationally it gives us a method for transforming a program
+of A into a program of B. If we remember that program's corresond to proofs we now have a computational method for proving.
+
+We can of course 
+
+\subsection{Automated Theorem Proving}
+High level talking points: \\
+\begin{itemize}
+    \item dependent types
+    \item equal to a fragment of inutionistic logic
+    \item provides tools for automated proof search
+    \item specification and implementation are one and the same
+    \item can do program extraction
+    \item executable 
+\end{itemize}
+
+Automated Theorem Proving has been an area of active research for many decades. It is apparent that the
+verification of general properties is desireable to both high assurance software engineers, researches, and
+mathmaticians. There have been various approaches to Automated Theorem Proving in the past ACL2, NuPRL, LF,
+LCF, Coq, Agda. The ones based on dependent type theories seem the most promising for various reasons 
+(computational, program extraction, proof carrying code, ect). The cutting edge of type theory has been
+an evolutions of the work done my Per Martin-Lof and others.
+
+Automated Theorem Proving has been applied in many areas from the NTSB, NASA, JPL, and a vareity of other places.
+
+The problem is that very often the specification is seperate from the implementation and suffers the common
+problems of pen and paper proof. In many cases Embedded Domain Specific Languages (EDSLs)
+have been used as a way to gain the power of a proof assitant and also write proof carrying code. We want
+to leverage the ideas here, but ideally built a seperate front-end that exposes the full power of proving,
+but also allows one to provide both an usuable interface that also generates useful proof properties for
+free (\makered{similar to the work done by UCSD PLIDI '14 paper, needs citation}).
+\\
+\makered{NOTE: Work in (For now I'm using a proof environment called Idris for prototyping verified Hardware construction.)}
+
+\subsection{Verified Hardware Construction}
+\begin{itemize}
+    \item Caisson \cite{Li:2011:CHD:1993498.1993512}
+    \item Fe-Si \cite{fesi}
+    \item Cryptol
+    \item Bluespec
+\end{itemize}
 
 \section{Extensions}
 
-The goal is to take everything that has been described and combine them into something that is uni
+\begin{itemize}
+    \item consistent design
+    \item demonstrate examples like verification of overflow
+    \item demonstrate bounded input sizes
+\end{itemize}
+
+\begin{itemize}
+    \item consistent design
+    \item syntactic/semantic seperation unlike verilog behavioral/structural
+    \item allow for some properties to be synthesized and proved automaticallly
+    \item verify synthesize and semantics of HDL so that any well formed HDL program has certain properties (ala Coq EDSLs)
+    \item \makered{find citation for UCSD PLDI '14 paper}
+\end{itemize}
+
+Key weaknesses of previous approaches to verification:
+\begin{itemize}
+    \item toy examples
+    \item no automatic property generation/proof satisfaction
+    \item 
+\end{itemize}
+
+\makered{still prototyping the things I want to discuss here}
+\makered{The goal is to take everything that has been described and synthesize the ways in which we can build a tool.}
+
+\section{Conclusion}
+
+\makered{Wrap up, discuss weakness, challenges, ect}
 
 \bibliography{paper}
 \bibliographystyle{plain}
