@@ -32,8 +32,6 @@ the formal verification of hardware synthesis.
 
 \section{Introduction}
 
-\makered{TODO: need to finish putting all my citations in} \\
-
 Hardware security is becoming and incresingly important topic both as a research problem and a pragmatic issue effecting 
 day to day life. Hardware is multiplying around us and proliferating through all parts of life. We are seeing more and more
 devices spring into existance to manage everything from avionics, pace makers, to your thermostat. One of the problems is
@@ -65,14 +63,16 @@ that are necessary to understanding our approach.
 
 \subsection{Secure Architecture}
 \begin{itemize}
-    \item Ruby's work, Tim's on execution leases, Appel
+    \item Ruby's work, Tim's on execution leases, Appel 
     \item All high level properties that are loosely reasoned about
     \item want flexibility in design, parametrizable modules (show example from GitHub here)
     \item Missing rigorous formal analysis
     \item When they have analysis it suffers from being Pen and Paper, and being abstracted from the actual work.
 \end{itemize}
 
-In \cite{lee05} they describe “secret-protected” architecture that enables the protection of critical secrets for users in an online environment. They argue that their architecture requires only a few extra features to be built into a general purpose microprocessor to protect secrets and related computations. They do this with a small amount of extra hardware. They are able to decouple user secrets from the devices, avoid symmetric master keys, and avoid doing factory-installed device secrets. Their approach can be divided into a few core features the Key Chain, Trusted Software Module, Concealed Execution, Hardware Extensions, Secure I/O, and OS support. 
+In \cite{lee05} they describe “secret-protected” architecture that enables the protection of critical secrets for users in an online environment. They argue that their architecture requires only a few extra features to be built into a general purpose microprocessor to protect secrets and related computations. They do this with a small amount of extra hardware. They are able to decouple user secrets from the devices, avoid symmetric master keys, and avoid doing factory-installed device secrets. Their approach can be divided into a few core features the Key Chain, Trusted Software Module, Concealed Execution, Hardware Extensions, Secure I/O, and OS support. \cite{exec-leases} \cite{PicoCoq2013:POPL}.
+
+\cite{blackboxed} \cite{languagebased} \cite{Chlipala:2007:CTC:1250734.1250742}
 
 \makered{work some critique in here: The evaluation could use some work. There is a written description of both their security and performance evalution, but neither has explicit numbers. It seems that although Ruby talks about performance vs. secu- rity tradeoffs in her book, she is not completely clear about the ones made here. As well they are lacking any sort of formal proof of their security properties. This may not be important to the architecture community, but it seems questionable at best to make claims about the security of a system at a high level without actually formally verifiying the properties hold in practice. The performance evaluation also seems to be very high level, and ignores important details, for example they dismiss the performance impact on the overall system without presenting precise empirical evaluation of it. They do evaluate the instruction load of their hardware crypto but do not compare it aganist anything else in the space.}
 
@@ -121,6 +121,8 @@ We then can collapse our language into a simple set of pseudo terms, and typing 
 The idea of Pi Types can be simply viewed as a generalization of the traditional function type. The generalization
 allows the codomain to depdend on the domain of the function. Given $B : P -> A; \Pi (x : A). B(x)$.
 
+\cite{HoTTbook} \cite{Pierce:TypeSystems}
+
 \subsection{Automated Theorem Proving}
 High level talking points: \\
 \begin{itemize}
@@ -146,17 +148,17 @@ problems of pen and paper proof. In many cases Embedded Domain Specific Language
 have been used as a way to gain the power of a proof assitant and also write proof carrying code. We want
 to leverage the ideas here, but ideally built a seperate front-end that exposes the full power of proving,
 but also allows one to provide both an usuable interface that also generates useful proof properties for
-free (\makered{similar to the work done by UCSD PLIDI '14 paper, needs citation}).
+free \cite{Ricketts:2014}. \cite{chlipala2011certified} \cite{Pierce:SF}
 \\
 \makered{NOTE: Work in (For now I'm using a proof environment called Idris for prototyping verified Hardware construction.)}
 
 \subsection{Verified Hardware Construction}
-\begin{itemize}
-    \item Caisson \cite{Li:2011:CHD:1993498.1993512}
-    \item Fe-Si \cite{fesi}
-    \item Cryptol
-    \item Bluespec
-\end{itemize}
+There has been work on creating tools for doing designing secure hardware such as Caisson and SAFE but in both cases the
+compiler assumes and enforces a standardized security policy. \makered{elaborate} \cite{Li:2011:CHD:1993498.1993512}
+There also has been work on specialized systems like Cryptol that make simplifying assumptions allowing certain gaurentees
+and properties to hold. There has been some related work in building higher level design languages such as Lava, and Bluespec
+that allow the hardware designer to abstract over properties such as explicit timing information. The most closely related
+work has been Fe-Si \cite{fesi} \cite{Brady_constructingcorrect} \cite{cryptol2010}
 
 \section{Extensions}
 
@@ -171,7 +173,7 @@ free (\makered{similar to the work done by UCSD PLIDI '14 paper, needs citation}
     \item syntactic/semantic seperation unlike verilog behavioral/structural
     \item allow for some properties to be synthesized and proved automaticallly
     \item verify synthesize and semantics of HDL so that any well formed HDL program has certain properties (ala Coq EDSLs)
-    \item \makered{find citation for UCSD PLDI '14 paper}
+    \item \makered{find citation for UCSD PLDI '14 paper} \cite{Ricketts:2014}
 \end{itemize}
 
 Key weaknesses of previous approaches to verification:
@@ -186,7 +188,13 @@ Key weaknesses of previous approaches to verification:
 
 \section{Conclusion}
 
-\makered{Wrap up, discuss weakness, challenges, ect}
+There has been a lot of work poured into constructing architectures that exhibit desired security properites. Unfortunately there hasn't been
+much work on the implementation and verification of these architectures so although on paper we are able to reason about the behavior of the
+system we don't have many guarentees about the behavior of our actual implementation. This is a failing of the tools used by hardware
+designers. We present a blueprint of how to leverage work done in the programming languages community and leverage automated theorem provers
+and dependent types as tools for specifying and verifying properties of hardware designs. We leave the more diffcult problem of designing and
+verifying hardware designs to future work, the first goal is to build a tool that is powerful and robust enough to actually port real designs
+to it.
 
 \bibliography{paper}
 \bibliographystyle{plain}
