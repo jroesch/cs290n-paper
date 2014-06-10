@@ -77,10 +77,8 @@ In \cite{lee05} they describe “secret-protected” architecture that enables t
 
 In \cite{blackboxed} \cite{languagebased} they discuss mechanisms for architectural and language support for mitigating the
 leakage of information through side channels. They take the approach of inserting time stops in order to prevent implicit
-leaks from control flow structures. 
-
-In \cite{languagebased} they described ways to add a type system to a small imperative language in order to mitigate the leakage of timing information.
-Ideally these hardware concerns shouldn't leak beyond the hardware level, and they grapple with this in their analysis of the technique. 
+leaks from control flow structures. In \cite{languagebased} they described ways to add a type system to a small imperative language in 
+order to mitigate the leakage of timing information. Ideally these concerns shouldn't leak beyond the hardware level, and they grapple with this in their analysis of the technique. 
 
 In \cite{exec-leases} they also detail an information flow architecture base upon their GLIFT technique. The critical idea of the work is that
 we can provide secure leases that allow for a caller to bound the privileges both in terms of information and time for the lessee. 
@@ -185,7 +183,7 @@ but also allows one to provide both an usable interface that also generates usef
 free \cite{Ricketts:2014}. \cite{chlipala2011certified} \cite{Pierce:SF}
 
 There is a prototype implementation of ideas discussed in the final section available. It is currently
-written in Idris one of the more practical dependently typed programming language.
+written in Idris (which is one of the more practical dependently typed programming languages).
 
 \subsection{Verified Hardware Construction}
 
@@ -235,11 +233,25 @@ complete but is still unfortunately just a toy. The DSL approach has important l
 programming in an awkward monadic style inside of the theorem proof system Coq. Ideally we would like to take the 
 simple core described in the Fe-Si work, but extend it in a few key ways. First we would like to add a surface language
 that will give us the ability to add more complicated features than the limited Fe-Si. We will also like to make modules first class
-entities that express information about the functionality of the circuit as well as 
+entities that express information about the functionality of the circuit as well so that we can use such information when proving
+properties about designs.
 
 We have experimented with a few different designs, and am still considering which is the best way forward.
 So far we have not made a decision on which is best, but have noticed some important trade offs in the process
-of implementing 
+of implementing prototypes. Many of the naive designs don't work because they lose precious typing information
+that is essential for proving properties about the design. It has become apparent that many of the decisions made
+by Adam Chilpalia's work are important. We will use the same approach of using a denontational approach, and relying
+on properties of the metalanguage such as strong normalization, and its type system to assure that our designs are
+correct by construction. We could of course elaborate our language to a core calculus and implement our own checker
+but it is important to not duplicate effort early in the research process, and should piggy back on existing work.
+For now we are translating directly to Idris source language, but it exposes its core calculus and checker as a
+library we can eventually use if we want to piggyback on their implementation effort. We also want to model his
+approach to slowly adding and proving the correctness of optimizations beyond the simple ones performed in \cite{fesi}.
+
+One of the long term goals is a verified framework for abstract interpretation a powerful analysis technique, but for
+now we will continue on in the style of Chilpalia.One of the big departures from FeSi is that we want to provide a back door 
+into the full theorem proving environment which will allow for designers or verifiers to add more complex theorems, and maintain 
+the power provided by a full proof assitant such as Coq.
 
 \section{Conclusion}
 
